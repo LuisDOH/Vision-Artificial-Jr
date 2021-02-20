@@ -26,31 +26,3 @@ def Contornos(fotogramas,min,max,area_minima):
 
     # Regresamos la imagen en HSV, la lista de contornos que estan ok
     return (hsv, lista_contornos, ord_contornos)
-
-
-
-video = cv2.VideoCapture(f"/home/lolguin/Desktop/ItStep/Junior 5/Pre-clase/OpenCV/Filtros/Vdrone.mp4")
-
-while (video.isOpened()):
-    ret, fotogramasVideo = video.read()
-    fotogramasVideo = imutils.resize(fotogramasVideo,width = 800)
-
-    min = np.array([84,158,87])
-    max = np.array([120,235,255])
-
-    hsv, contronos, contornos_ok = Contornos(fotogramasVideo, min,max,50)
-    #cv2.drawContours(fotogramasVideo, contornos_ok, -1, (0,255,0), 3)
-
-    if len(contornos_ok)>0:
-        x,y,w,h = cv2.boundingRect(contornos_ok[0])
-        cv2.rectangle(fotogramasVideo,(x,y),(x+w,y+h),(255,0,255),3)
-
-
-    cv2.imshow("Original", fotogramasVideo)
-    cv2.imshow("HSV", hsv)
-
-    if (cv2.waitKey(15) & 0xFF == ord('q')):
-        break
-
-video.release()
-cv2.destroyAllWindows()
